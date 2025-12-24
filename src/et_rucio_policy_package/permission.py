@@ -182,6 +182,8 @@ def perm_add_rule(issuer: "InternalAccount", kwargs: dict[str, Any], *, session:
         return True
     if _is_root(issuer) or has_account_attribute(account=issuer, key='admin', session=session):
         return True
+    if has_account_attribute(account=issuer, key='can_add_rule', session=session):
+        return True
     return False
 
 
@@ -702,7 +704,8 @@ def perm_add_replicas(issuer: "InternalAccount", kwargs: dict[str, Any], *, sess
         or str(kwargs.get('rse', '')).endswith('MOCK')\
         or str(kwargs.get('rse', '')).endswith('LOCALGROUPDISK')\
         or _is_root(issuer)\
-        or has_account_attribute(account=issuer, key='admin', session=session)
+        or has_account_attribute(account=issuer, key='admin', session=session)\
+        or has_account_attribute(account=issuer, key='can_add_replicas', session=session):
 
 
 def perm_skip_availability_check(issuer: "InternalAccount", kwargs: dict[str, Any], *, session: "Optional[Session]" = None) -> bool:

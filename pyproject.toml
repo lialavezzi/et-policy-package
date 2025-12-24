@@ -3,12 +3,12 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "policy_package_template"
+name = "rucio-et-policy"
 version = "0.0.1"
 authors = [
-    { name="policy_package_template", email="placeholder@placeholder.com" },
+    { name="Lia Lavezzi", email="lia.lavezzi@to.infn.it" },
 ]
-description = "Rucio template policy package"
+description = "Rucio policy package for Einstein Telescope"
 requires-python = ">=3.9"
 classifiers = [
    "Programming Language :: Python :: 3",
@@ -19,5 +19,5 @@ license = {file = "LICENSE"}
 
 [project.optional-dependencies]
 dev = [
-    "rucio>=35.5.0"
+    "rucio>=32.8.0"
 ]

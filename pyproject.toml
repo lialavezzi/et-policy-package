@@ -16,8 +16,3 @@ classifiers = [
 ]
 readme = "README.md"
 license = {file = "LICENSE"}
-
-#[project.optional-dependencies]
-#dev = [
-#    "rucio>=32.8.0"
-#]

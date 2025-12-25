@@ -704,7 +704,8 @@ def perm_add_replicas(issuer, kwargs, *, session: "Optional[Session]" = None):
         or str(kwargs.get('rse', '')).endswith('MOCK')\
         or str(kwargs.get('rse', '')).endswith('LOCALGROUPDISK')\
         or _is_root(issuer)\
-        or has_account_attribute(account=issuer, key='admin', session=session)
+        or has_account_attribute(account=issuer, key='admin', session=session)\
+        or has_account_attribute(account=issuer, key='can_add_replicas', session=session)
 
 
 def perm_skip_availability_check(issuer, kwargs, *, session: "Optional[Session]" = None):

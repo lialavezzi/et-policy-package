@@ -1,5 +1,4 @@
-# copied from generic
-#
+# -*- coding: utf-8 -*-
 # Copyright European Organization for Nuclear Research (CERN) since 2012
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from jsonschema import ValidationError, validate
+from jsonschema import validate, ValidationError
 
 from rucio.common.exception import InvalidObject
 
@@ -22,8 +21,7 @@ ACCOUNT_LENGTH = 25
 
 ACCOUNT = {"description": "Account name",
            "type": "string",
-           "maxLength": ACCOUNT_LENGTH,
-           "pattern": "^[a-z0-9-_]+$"}
+           "pattern": "^[a-z0-9-_]{1,%s}$" % ACCOUNT_LENGTH}
 
 ACCOUNTS = {"description": "Array of accounts",
             "type": "array",
@@ -49,8 +47,7 @@ SCOPE_LENGTH = 25
 
 SCOPE = {"description": "Scope name",
          "type": "string",
-         "maxLength": SCOPE_LENGTH,
-         "pattern": "^[a-zA-Z_\\-.0-9]+$"}
+         "pattern": "^[a-zA-Z_\\-.0-9]{1,%s}$" % SCOPE_LENGTH}
 
 R_SCOPE = {"description": "Scope name",
            "type": "string",
@@ -60,8 +57,7 @@ NAME_LENGTH = 250
 
 NAME = {"description": "Data Identifier name",
         "type": "string",
-        "maxLength": NAME_LENGTH,
-        "pattern": "^[A-Za-z0-9][A-Za-z0-9\\.\\-\\_]*$"}
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9\\.\\-\\_]{1,%s}$" % NAME_LENGTH}
 
 R_NAME = {"description": "Data Identifier name",
           "type": "string",
@@ -293,7 +289,7 @@ R_DIDS = {"description": "Array of Data Identifiers(DIDs)",
           "minItems": 1,
           "maxItems": 1000}
 
-ATTACHMENT = {"description": "Attachment",
+ATTACHMENT = {"description": "Attachement",
               "type": "object",
               "properties": {"scope": SCOPE,
                              "name": NAME,

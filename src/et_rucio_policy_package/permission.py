@@ -705,7 +705,7 @@ def perm_add_replicas(issuer, kwargs, *, session: "Optional[Session]" = None):
         or str(kwargs.get('rse', '')).endswith('LOCALGROUPDISK')\
         or _is_root(issuer)\
         or has_account_attribute(account=issuer, key='admin', session=session)\
-        or has_account_attribute(account=issuer, key='can_add_replicas', session=session)
+        or has_account_attribute(account=issuer, key='can_upload', session=session)
 
 
 def perm_skip_availability_check(issuer, kwargs, *, session: "Optional[Session]" = None):
@@ -741,7 +741,8 @@ def perm_update_replicas_states(issuer, kwargs, *, session: "Optional[Session]" 
     :param session: The DB session to use
     :returns: True if account is allowed, otherwise False
     """
-    return _is_root(issuer) or has_account_attribute(account=issuer, key='admin', session=session)
+    return _is_root(issuer) or has_account_attribute(account=issuer, key='admin', session=session)\
+        or has_account_attribute(account=issuer, key='can_upload', session=session)
 
 
 def perm_queue_requests(issuer, kwargs, *, session: "Optional[Session]" = None):

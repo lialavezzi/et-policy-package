@@ -701,7 +701,7 @@ def perm_add_replicas(issuer: "InternalAccount", kwargs: dict[str, Any], session
         or str(kwargs.get('rse', '')).endswith('MOCK')\
         or str(kwargs.get('rse', '')).endswith('LOCALGROUPDISK')\
         or _is_root(issuer)\
-        or has_account_attribute(account=issuer, key='admin', session=session)\
+        or has_account_attribute(account=issuer, key='admin', session=session) \
         or has_account_attribute(account=issuer, key='can_upload', session=session)
 
 def perm_skip_availability_check(issuer: "InternalAccount", kwargs: dict[str, Any], session: "Session") -> bool:

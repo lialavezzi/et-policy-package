@@ -1,5 +1,3 @@
-#
-# -*- coding: utf-8 -*-
 # Copyright European Organization for Nuclear Research (CERN) since 2012
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,15 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from jsonschema import validate, ValidationError
-
-from rucio.common.exception import InvalidObject
 
 ACCOUNT_LENGTH = 25
 
 ACCOUNT = {"description": "Account name",
            "type": "string",
-           "pattern": "^[a-z0-9-_]{1,%s}$" % ACCOUNT_LENGTH}
+           "maxLength": ACCOUNT_LENGTH,
+           "pattern": "^[a-z0-9-_]+$"}
 
 ACCOUNTS = {"description": "Array of accounts",
             "type": "array",
@@ -48,7 +44,8 @@ SCOPE_LENGTH = 25
 
 SCOPE = {"description": "Scope name",
          "type": "string",
-         "pattern": "^[a-zA-Z_\\-.0-9]{1,%s}$" % SCOPE_LENGTH}
+         "maxLength": SCOPE_LENGTH,
+         "pattern": "^[a-zA-Z_\\-.0-9]+$"}
 
 R_SCOPE = {"description": "Scope name",
            "type": "string",
@@ -58,7 +55,8 @@ NAME_LENGTH = 250
 
 NAME = {"description": "Data Identifier name",
         "type": "string",
-        "pattern": "^[A-Za-z0-9][A-Za-z0-9\\.\\-\\_]{1,%s}$" % NAME_LENGTH}
+        "maxLength": NAME_LENGTH,
+        "pattern": r"^[/A-Za-z0-9][/A-Za-z0-9\.\-_]*$"}
 
 R_NAME = {"description": "Data Identifier name",
           "type": "string",
@@ -96,7 +94,9 @@ DEFAULT_RSE_ATTRIBUTE = {"description": "Default RSE attribute",
 
 REPLICA_STATE = {"description": "Replica state",
                  "type": "string",
-                 "enum": ["AVAILABLE", "UNAVAILABLE", "COPYING", "BEING_DELETED", "BAD", "SOURCE", "A", "U", "C", "B", "D", "S"]}
+                 "enum": [
+                     "AVAILABLE", "UNAVAILABLE", "COPYING", "BEING_DELETED", "BAD", "SOURCE", "TEMPORARY_UNAVAILABLE",
+                     "A", "U", "C", "B", "D", "S", "T"]}
 
 DATE = {"description": "Date",
         "type": "string",
@@ -290,7 +290,7 @@ R_DIDS = {"description": "Array of Data Identifiers(DIDs)",
           "minItems": 1,
           "maxItems": 1000}
 
-ATTACHMENT = {"description": "Attachement",
+ATTACHMENT = {"description": "Attachment",
               "type": "object",
               "properties": {"scope": SCOPE,
                              "name": NAME,
@@ -369,7 +369,7 @@ ACCOUNT_ATTRIBUTE = {"description": "Account attribute",
                      "type": "string",
                      "pattern": r'^[a-zA-Z0-9-_\\/\\.]{1,30}$'}
 
-SCOPE_NAME_REGEXP = '/(.*)/(.*)'
+SCOPE_NAME_REGEXP = r"/([^/]+)/(.*)"
 
 DISTANCE = {"description": "RSE distance",
             "type": "object",
@@ -416,17 +416,3 @@ SCHEMAS = {'account': ACCOUNT,
            'cache_delete_replicas': CACHE_DELETE_REPLICAS,
            'account_attribute': ACCOUNT_ATTRIBUTE,
            'import': IMPORT}
-
-
-def validate_schema(name, obj):
-    """
-    Validate object against json schema
-
-    :param name: The json schema name.
-    :param obj: The object to validate.
-    """
-    try:
-        if obj:
-            validate(obj, SCHEMAS.get(name, {}))
-    except ValidationError as error:  # NOQA, pylint: disable=W0612
-        raise InvalidObject(f'Problem validating {name}: {error}')

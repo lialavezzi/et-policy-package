@@ -742,6 +742,12 @@ def perm_update_replicas_states(issuer: "InternalAccount", kwargs: dict[str, Any
     :param session: The DB session to use
     :returns: True if account is allowed, otherwise False
     """
+    print("*****************************")
+    print(issuer)
+    print(rucio.core.scope,kwargs['scope'])
+
+
+    
     return _is_root(issuer) or has_account_attribute(account=issuer, key='admin', session=session)\
         or (has_account_attribute(account=issuer, key='can_upload', session=session)
             and rucio.core.scope.is_scope_owner(scope=kwargs['scope'], account=issuer, session=session))

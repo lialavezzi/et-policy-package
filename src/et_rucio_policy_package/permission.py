@@ -696,19 +696,14 @@ def perm_add_replicas(issuer: "InternalAccount", kwargs: dict[str, Any], session
     :param session: The DB session to use
     :returns: True if account is allowed, otherwise False
     """
-
-    print("*****************************")
-    print(issuer)
-    print(rucio.core.scope,kwargs['scope']) 
     return str(kwargs.get('rse', '')).endswith('SCRATCHDISK')\
         or str(kwargs.get('rse', '')).endswith('USERDISK')\
         or str(kwargs.get('rse', '')).endswith('MOCK')\
         or str(kwargs.get('rse', '')).endswith('LOCALGROUPDISK')\
         or _is_root(issuer)\
         or has_account_attribute(account=issuer, key='admin', session=session) \
-        or (has_account_attribute(account=issuer, key='can_upload', session=session)
-            and rucio.core.scope.is_scope_owner(scope=kwargs['scope'], account=issuer, session=session))
-
+        or has_account_attribute(account=issuer, key='can_upload', session=session)
+  
 def perm_skip_availability_check(issuer: "InternalAccount", kwargs: dict[str, Any], session: "Session") -> bool:
     """
     Checks if an account can skip the availabity check to add/delete file replicas.
@@ -742,17 +737,9 @@ def perm_update_replicas_states(issuer: "InternalAccount", kwargs: dict[str, Any
     :param session: The DB session to use
     :returns: True if account is allowed, otherwise False
     """
-    print("*****************************")
-    print(issuer)
-    print(rucio.core.scope,kwargs['scope'])
-
-
-    
     return _is_root(issuer) or has_account_attribute(account=issuer, key='admin', session=session)\
-        or (has_account_attribute(account=issuer, key='can_upload', session=session)
-            and rucio.core.scope.is_scope_owner(scope=kwargs['scope'], account=issuer, session=session))
-
-
+        or has_account_attribute(account=issuer, key='can_upload', session=session)
+           
 def perm_queue_requests(issuer: "InternalAccount", kwargs: dict[str, Any], session: "Session") -> bool:
     """
     Checks if an account can submit transfer or deletion requests on destination RSEs for data identifiers.

@@ -696,6 +696,10 @@ def perm_add_replicas(issuer: "InternalAccount", kwargs: dict[str, Any], session
     :param session: The DB session to use
     :returns: True if account is allowed, otherwise False
     """
+
+    print("*****************************")
+    print(issuer)
+    print(rucio.core.scope,kwargs['scope']) 
     return str(kwargs.get('rse', '')).endswith('SCRATCHDISK')\
         or str(kwargs.get('rse', '')).endswith('USERDISK')\
         or str(kwargs.get('rse', '')).endswith('MOCK')\

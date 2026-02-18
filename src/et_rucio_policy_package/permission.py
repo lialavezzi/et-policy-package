@@ -491,6 +491,12 @@ def perm_update_rule(issuer: "InternalAccount", kwargs: dict[str, Any], session:
     """
     if _is_root(issuer) or has_account_attribute(account=issuer, key='admin', session=session):
         return True
+
+    # Check the accounts of the issued rules                                                                                 >
+    for rule in kwargs.get('rules', []):
+      if rule['account'] == issuer and has_account_attribute(account=issuer, key='can_upload', session=session):
+        return True
+
     return False
 
 

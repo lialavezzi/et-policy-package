@@ -489,11 +489,15 @@ def perm_update_rule(issuer: "InternalAccount", kwargs: dict[str, Any], session:
     :param session: The DB session to use
     :returns: True if account is allowed to call the API call, otherwise False
     """
+
+    print("**** permission ",issuer, _is_root(issuer),"*************")
+    
     if _is_root(issuer) or has_account_attribute(account=issuer, key='admin', session=session):
         return True
 
     # Check the accounts of the issued rules                                                                                 >
     for rule in kwargs.get('rules', []):
+      print("**** permission ",issuer, _is_root(issuer), rule['account'])
       if rule['account'] == issuer and has_account_attribute(account=issuer, key='can_upload', session=session):
         return True
 

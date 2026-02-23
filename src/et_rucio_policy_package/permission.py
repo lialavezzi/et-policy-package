@@ -125,6 +125,7 @@ def has_permission(issuer: "InternalAccount", action: str, kwargs: dict[str, Any
             'set_transfer_limit': perm_set_transfer_limit,
             'delete_transfer_limit': perm_delete_transfer_limit}
 
+    print("****************** HAS PERMISSION **********************")
     return perm.get(action, perm_default)(issuer=issuer, kwargs=kwargs, session=session)
 
 
